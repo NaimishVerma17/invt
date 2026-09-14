@@ -7,16 +7,20 @@ const musicBtn = document.getElementById("musicBtn");
 document.body.classList.add("locked");
 
 enterBtn.addEventListener("click", async () => {
-  intro.classList.add("hidden");
-  main.classList.add("visible");
-  document.body.classList.remove("locked");
+  intro.classList.add("opening");          // panels slide apart + label fades
 
-  try {
-    await music.play();
-    musicBtn.textContent = "❚❚";
-  } catch (e) {
-    musicBtn.textContent = "♫";
-  }
+  setTimeout(async () => {
+    intro.classList.add("hidden");         // whole overlay fades out
+    main.classList.add("visible");
+    document.body.classList.remove("locked");
+
+    try {
+      await music.play();
+      musicBtn.textContent = "❚❚";
+    } catch (e) {
+      musicBtn.textContent = "♫";
+    }
+  }, 850);
 });
 
 musicBtn.addEventListener("click", async () => {

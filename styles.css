@@ -48,24 +48,92 @@ h1, h2, h3 {
   pointer-events: none;
 }
 
-.intro-card {
-  width: min(90%, 600px);
+/* === GIFT WRAP PANELS === */
+.gift-panel {
+  position: absolute;
+  top: 0; bottom: 0;
+  width: calc(50% + 1px);
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 14px,
+      rgba(255,255,255,.04) 14px,
+      rgba(255,255,255,.04) 28px
+    ),
+    linear-gradient(160deg, #a02d3d 0%, var(--deep) 100%);
+  z-index: 3;
+  transition: transform 1s cubic-bezier(0.77, 0, 0.18, 1);
+}
+.gift-left  { left: 0; }
+.gift-right { right: 0; }
+
+.gift-left::after {
+  content: "";
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold) 15%, var(--gold) 85%, transparent);
+}
+
+.intro.opening .gift-left  { transform: translateX(-101%); }
+.intro.opening .gift-right { transform: translateX(101%); }
+
+/* Gold ribbon */
+.ribbon {
+  position: absolute;
+  z-index: 4;
+  pointer-events: none;
+  transition: opacity .25s ease;
+}
+.ribbon-h {
+  left: 0; right: 0;
+  top: calc(50% - 1px);
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(176,138,74,.7) 20%, rgba(176,138,74,.7) 80%, transparent);
+}
+.ribbon-v {
+  top: 0; bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, rgba(176,138,74,.7) 10%, rgba(176,138,74,.7) 90%, transparent);
+}
+.intro.opening .ribbon { opacity: 0; }
+
+/* Centered invitation label */
+.gift-label-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+  pointer-events: none;
+  transition: opacity .5s ease, transform .5s ease;
+}
+.gift-label {
+  width: min(90%, 520px);
   padding: 55px 30px;
   text-align: center;
   border: 1px solid rgba(176,138,74,.45);
+  background: rgba(255,250,241,.94);
   position: relative;
+  pointer-events: auto;
   animation: rise 1.2s ease both;
 }
-
-.intro-card::before,
-.intro-card::after {
+.gift-label::before,
+.gift-label::after {
   content: "✦";
   position: absolute;
   color: var(--gold);
   font-size: 24px;
 }
-.intro-card::before { top: 14px; left: 18px; }
-.intro-card::after { bottom: 14px; right: 18px; }
+.gift-label::before { top: 14px; left: 18px; }
+.gift-label::after  { bottom: 14px; right: 18px; }
+
+.intro.opening .gift-label-wrap {
+  opacity: 0;
+  transform: translateY(-18px);
+}
 
 .om { font-size: 32px; color: var(--wine); margin-bottom: 18px; }
 
@@ -388,12 +456,12 @@ footer small { display: block; margin-top: 35px; opacity: .5; }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Intro card glow pulse */
+/* Label glow pulse */
 @keyframes glow-pulse {
   0%, 100% { box-shadow: 0 0 0px rgba(176,138,74,0); }
   50%       { box-shadow: 0 0 35px rgba(176,138,74,.22); }
 }
-.intro-card {
+.gift-label {
   animation: rise 1.2s ease both, glow-pulse 4s ease-in-out 1.4s infinite;
 }
 
